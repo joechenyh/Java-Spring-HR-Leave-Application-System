@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="ISO-8859-1">
+<title th:utext=#{leaves-apply.title}></title>
+<link rel="stylesheet" type="text/css" media="all"
+	href="../../css/style.css" th:href="@{/css/style.css}" />
+<link rel="stylesheet"
+	href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+<script
+	src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script
+	src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+
+<link rel="stylesheet" href="applyform.css">
+<script src="popup.js"></script>
+</head>
+<body>
+	<header th:insert="fragments/general.html::header"></header>
+	<div th:insert="fragments/general.html::navigationbar"></div>
+
+	<h1 class="text-center">Annual Leave Application Form</h1>
+	<span style="padding-left: 150px"> Welcome <span th:text="${session.user.name}"></span></span>
+	<div class="container">
+	 <div class="col-md-6 col-md-offset-2">
+			<form class="form-horizontal" action="#"
+				th:action="@{/leaves/annual/save}" th:object="${annualLeave}"
+				method="post">
+				
+				<div class="form-group">
+					<p th:if="not ${error1==null}" th:text="${error1}" style="color: red;"></p>
+					<label class="control-label col-sm-6" for="startdate">Available
+						Leaves</label>
+					<div class="col-sm-6">
+						<input id="avaAnn" th:value="${eCurAnnLeave}" disabled="disabled" class="form-control"></input>
+					</div>
+				</div>
+
+				<div class="form-group">
+					<label class="control-label col-sm-6" for="startdate">Start
+						Date</label>
+					<div class="col-sm-6">
+						<input type="date" class="form-control" id="sdate"
+							th:field="*{startDate}" disabled>
+					</div>
+				</div>
+
+
+				<div class="form-group">
+					<label class="control-label col-sm-6" for="enddate">End
+						Date</label>
+					<div class="col-sm-6">
+						<input type="date" class="form-control" id="edate"
+							th:field="*{endDate}" disabled>
+					</div>
+					<p th:if="not ${error==null}" th:text="${error}" style="color: red;"></p>
+				</div>
+
+				<div class="form-group">
+					<label class="control-label col-sm-6" for="contactdetails">Contact
+						Details</label>
+					<div class="col-sm-6">
+						<input type="text" class="form-control" id="ctdetails"
+							th:field="*{contactDetails}" disabled>
+					</div>
+				</div>
+
+				<div class="form-group">
+					<label class="control-label col-sm-6" for="comment">Leave
+						Reason</label>
+					<div class="col-sm-6">
+						<textarea class="form-control" rows="5" id="comment"
+							th:field="*{leaveReason}" disabled></textarea>
+
+					</div>
+				</div>
+				
+				<div class="form-group">
+					<div class="control-label col-sm-6"></div>
+					<div class="col-sm-6" th:if="${#strings.equals(annualLeave.status,'Applied')}">
+						<a th:href="@{/leaves/delete/}+${annualLeave.id}"
+						th:text="#{leaves-history.delete }" class="btn btn-primary col-sm-12">Delete</a>
+					</div>
+				
+				</div>
+				
+				<div class="form-group">
+					<div class="control-label col-sm-6"></div>
+					<div class="col-sm-6" th:if="${#strings.equals(annualLeave.status,'Applied')}">
+							<a th:href="@{/leaves/update/}+${annualLeave.id}"
+							th:text="#{leaves-history.update }" class="btn btn-primary col-sm-12">Update</a>
+					</div>
+				</div>
+				
+				<div class="form-group">
+					<div class="control-label col-sm-6"></div>
+					<div class="col-sm-6"  th:if="${#strings.equals(annualLeave.status,'Approved')}">
+						<a th:if="${#dates.createToday().before(annualLeave.startDate)}" th:href="@{/leaves/cancel/}+${annualLeave.id}"
+						th:text="#{leaves-history.cancel }" class="btn btn-primary col-sm-12">Cancel</a>
+					</div>
+				</div>
+				
+				<div class="form-group">
+					<div class="control-label col-sm-6"></div>
+					<div class="col-sm-6">
+						<a th:href="@{/leaves/history}" class="btn btn-primary col-sm-12">Back to History</a>
+					</div>
+				</div>
+			
+			</form>
+		</div>
+		</div>
+
+</body>
+</html>

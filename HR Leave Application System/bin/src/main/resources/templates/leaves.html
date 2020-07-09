@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="ISO-8859-1">
+<title th:utext=#{leaves.title}></title>
+</head>
+<body>
+	<header th:insert="fragments/general.html::header"></header>
+	<div th:insert="fragments/general.html::navigationbar"></div>
+
+
+	<h1
+		th:text="'Welcome, ' + ${session.user.name} + ' (' + ${session.user.getDiscriminatorValue()}+')'"></h1>
+	<br>
+	<div align="left">
+		<table class="table">
+			<thead>
+				<tr>
+					<th colspan="2" align="center">Here are your current leave amounts and approved
+							OT hours</th>
+				<tr>
+			</thead>
+			<tbody>
+				<tr>
+					<td align="center">Annual Leave(s)</td>
+					<td align="center"
+						th:text="${session.user.CurrentAnnualLeaves} + ' days'"></td>
+				</tr>
+				<tr>
+					<td align="center">Medical Leave(s)</td>
+					<td align="center"
+						th:text="${session.user.CurrentMedicalLeaves} + ' days'"></td>
+				</tr>
+				<tr>
+					<td align="center">Approved OT(s)</td>
+					<td align="center" th:text="${session.user.totalOTHours} + ' hour'"></td>
+				</tr>
+			</tbody>
+		</table>
+	</div>
+
+	<!-- <a href="/leaves/apply">
+		<button> Apply </button>
+	</a>
+	
+<a href="/leaves/manage">
+		<button> Manage </button>
+	</a>
+	
+	<a href="/leaves/cancel">
+		<button> Cancel </button>
+	</a>
+	
+	<a href="/leaves/history">
+		<button> History </button>
+	</a>
+	
+	<a href="/leaves/generate-report">
+		<button> Generate Report </button>
+	</a>
+	
+	<a href="/leaves/movement-register">
+		<button> Movement Register </button>
+	</a> -->
+
+	<div th:insert="fragments/general.html::footer"></div>
+
+
+</body>
+</html>

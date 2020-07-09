@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="ISO-8859-1">
+<title th:utext=#{leaves-apply.title}></title>
+<link rel="stylesheet" type="text/css" media="all"
+	href="../../css/style.css" th:href="@{/css/style.css}" />
+<link rel="stylesheet"
+	href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+<script
+	src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script
+	src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+
+</head>
+<body>
+	<header th:insert="fragments/general.html::header"></header>
+	<div th:insert="fragments/general.html::navigationbar"></div>
+	
+
+	<h1 class="text-center">Compensation Leave Application Form</h1>
+	<span style="padding-left: 50px"> Welcome <span
+		th:text="${session.user.name}"></span></span>
+	<div class="container">
+		<div class="col-md-6 col-md-offset-2">
+			<form class="form-horizontal" action="#"
+				th:action="@{/leaves/compensation/save}"
+				th:object="${compensationLeave}" method="post">
+				<!-- <p th:if="${#fields.hasErrors('staff')}" th:errors="*{name}"></p>
+		 -->
+				<input type="hidden" th:field="*{id}">
+
+				<div class="form-group">
+				<p th:if="not ${error==null}" th:text="${error}" style="color: red;"></p>
+				<p th:if="not ${errorSameQuota==null}" th:text="${errorSameQuota}" style="color: red;"></p>
+					<label class="control-label col-sm-6" for="startdate">Start
+						Date</label>
+					<div class="col-sm-6">
+						<input type="date" th:field="*{startDate}" id="sdate" class="form-control"
+							placeholder="yyyy-MM-dd" />
+						<p th:if="not ${errorDate==null}" th:text="${errorDate}" style="color: red;"></p>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="control-label col-sm-6" for="claimQuota">Leave
+						Quota</label>
+					<div class="col-sm-6">
+						<select th:field="*{claimQuota}" class="form-control">
+							<option th:value="#{compensation.form.am}"
+								th:text="#{compensation.form.am}">AM</option>
+							<option th:value="#{compensation.form.pm}"
+								th:text="#{compensation.form.pm}">PM</option>
+						</select>
+					</div>
+				</div>
+
+				<div class="form-group">
+					<label class="control-label col-sm-6" for="comment">Leave
+						Reason</label>
+					<div class="col-sm-6">
+						<textarea class="form-control" rows="5" id="comment"
+							th:field="*{leaveReason}"></textarea>
+					</div>
+				</div>
+				<div class="form-group">
+					<div class="control-label col-sm-6"></div>
+					<div class="col-sm-6">
+						<button type="submit" class="btn btn-primary col-sm-12" id="myBtn">Submit</button>
+					</div>
+				</div>
+				<!-- 						<div th:if="not ${#strings.isEmpty(formId)}"> -->
+				<!-- 							<a th:if="${#strings.equals(formId,'ucd')}" th:href="@{/leaves/update/}+${compensationLeave.id}"
+<!-- 						th:text="#{leaves-history.update }">Update</a> -->
+				
+				<!-- 							<a th:if="${#strings.equals(formId,'ucd')}" -->
+				<!-- 								th:href="@{/leaves/delete/}+${compensationLeave.id}" -->
+				<!-- 								th:text="#{leaves-history.delete }" class="btn btn-primary">Delete</a> -->
+
+				<!-- 							<a -->
+				<!-- 								th:if="${#dates.createToday().before(compensationLeave.startDate)}" -->
+				<!-- 								th:href="@{/leaves/cancel/}+${compensationLeave.id}" -->
+				<!-- 								th:text="#{leaves-history.cancel }" class="btn btn-primary">Cancel</a> -->
+				<!-- 						</div> -->
+				<!-- 					</div> -->
+				<!-- 				</div> -->
+			</form>
+		</div>
+	</div>
+</body>
+</html>

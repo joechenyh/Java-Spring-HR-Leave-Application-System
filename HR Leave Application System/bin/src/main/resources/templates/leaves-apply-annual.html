@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="ISO-8859-1">
+<title th:utext=#{leaves-apply.title}></title>
+<link rel="stylesheet" type="text/css" media="all"
+	href="../../css/style.css" th:href="@{/css/style.css}" />
+<link rel="stylesheet"
+	href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+<script
+	src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script
+	src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+
+<link rel="stylesheet" href="applyform.css">
+<script src="popup.js"></script>
+</head>
+<body>
+	<header th:insert="fragments/general.html::header"></header>
+	<div th:insert="fragments/general.html::navigationbar"></div>
+
+	<h1 class="text-center">Annual Leave Application Form</h1>
+	<span style="padding-left: 50px"> Welcome <span th:text="${session.user.name}"></span></span>
+	<input type="hidden" th:text="${session.user.id}"></input>
+	<div class="container">
+	 <div class="col-md-6 col-md-offset-2">
+			<form class="form-horizontal" action="#"
+				th:action="@{/leaves/annual/save}" th:object="${annualLeave}"
+				method="post">
+				
+				<div class="form-group">
+					<p th:if="not ${error1==null}" th:text="${error1}" style="color: red;"></p>
+					<label class="control-label col-sm-6" for="startdate">Available
+						Leaves</label>
+					<div class="col-sm-6">
+						<input id="avaAnn" th:value="${eCurAnnLeave}" disabled="disabled" class="form-control"></input>
+					</div>
+				</div>
+				
+<!-- 				<input type="hidden" th:field="*{id}"> -->
+
+				<div class="form-group">
+					<label class="control-label col-sm-6" for="startdate">Start
+						Date</label>
+					<div class="col-sm-6">
+						<p th:if="not ${dateError==null}" th:text="${dateError}"
+							style="color: red;"></p>
+						<input type="date" class="form-control" id="sdate"
+							th:field="*{startDate}" th:text="${#dates.format(annualLeave.startDate, 'yyyy-MM-dd')}">
+						<p th:if="${#fields.hasErrors('startDate')}" th:text="${#dates.format(annualLeave.startDate, 'yyyy-MM-dd')}"
+							th:errors="*{startDate}" style="color: red"></p>
+						<p th:if="not ${errorSameDate==null}" th:text="${errorSameDate}" style="color: red;"></p>
+						<p th:if="not ${errorDate==null}" th:text="${errorDate}" style="color: red;"></p>
+					</div>
+				</div>
+
+
+				<div class="form-group">
+					<label class="control-label col-sm-6" for="enddate">End
+						Date</label>
+					<div class="col-sm-6">
+						<input type="date" class="form-control" id="edate"
+							th:field="*{endDate}">
+						<p th:if="not ${errorEndDate==null}" th:text="${errorEndDate}" style="color: red;"></p>
+						<p th:if="${#fields.hasErrors('endDate')}" th:errors="*{endDate}"
+							style="color: red" th:text="${#dates.format(annualLeave.endDate, 'yyyy-MM-dd')}"></p>
+					</div>
+					<p th:if="not ${error==null}" th:text="${error}" style="color: red;"></p>
+				</div>
+
+				<div class="form-group">
+					<label class="control-label col-sm-6" for="contactdetails">Contact
+						Details</label>
+					<div class="col-sm-6">
+						<input type="text" class="form-control" id="ctdetails"
+							th:field="*{contactDetails}">
+						<p th:if="${#fields.hasErrors('contactDetails')}"
+							th:errors="*{contactDetails}" style="color: red"></p>
+					</div>
+				</div>
+
+				<div class="form-group">
+					<label class="control-label col-sm-6" for="comment">Leave
+						Reason</label>
+					<div class="col-sm-6">
+						<textarea class="form-control" rows="5" id="comment"
+							th:field="*{leaveReason}"></textarea>
+
+					</div>
+				</div>
+				
+				<div class="form-group">
+					<div class="control-label col-sm-6"> </div>
+					<div class="col-sm-6">
+						<button type="submit" class="btn btn-primary col-sm-12" id="myBtn">Submit</button>
+					</div>
+				</div>
+						
+					
+					<!-- 				<div class="col-sm-3" style="float: right;"> -->
+					<!-- 					<div th:if="not ${#strings.isEmpty(formId)}">
+<!-- 							<a th:if="${#strings.equals(formId,'ucd')}" th:href="@{/leaves/update/}+${annualLeave.id}" -->
+					<!-- 							th:text="#{leaves-history.update }">Update</a> -->
+					<!-- 							<a class="btn btn-primary" th:if="${#strings.equals(formId,'ucd')}" th:href="@{/leaves/delete/}+${annualLeave.id}" -->
+					<!-- 							th:text="#{leaves-history.delete }">Delete</a> -->
+
+					<!-- 						<a th:if="${#dates.createToday().before(annualLeave.startDate)}" class="btn btn-primary" th:href="@{/leaves/cancel/}+${annualLeave.id}" -->
+					<!-- 							th:text="#{leaves-history.cancel }" >Cancel</a> -->
+					<!-- 					</div> -->
+					<!-- 				</div> -->
+				
+			</form>
+		</div>
+		</div>
+
+</body>
+</html>

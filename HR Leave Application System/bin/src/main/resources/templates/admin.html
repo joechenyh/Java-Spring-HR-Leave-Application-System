@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="ISO-8859-1">
+<title th:utext=#{admin.title}></title>
+</head>
+<body>
+	<header th:insert="fragments/general.html::header"></header>
+	<div th:insert="fragments/general.html::adminbar"></div>
+	
+	<h1 th:text="'Welcome, ' + ${session.user.name} + ' (' + ${session.user.getDiscriminatorValue()}+')'"></h1>
+	
+	<div th:insert="fragments/general.html::footer"></div>
+	
+	
+</body>
+</html>

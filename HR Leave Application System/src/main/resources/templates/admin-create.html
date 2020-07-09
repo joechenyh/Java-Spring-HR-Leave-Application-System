@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="ISO-8859-1">
+<meta name="viewport"
+	content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+<!-- Bootstrap CSS -->
+<link rel="stylesheet"
+	href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css"
+	integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk"
+	crossorigin="anonymous">
+<title>Insert title here</title>
+</head>
+<body>
+	<header th:insert="fragments/general.html::header"></header>
+	<div th:insert="fragments/general.html::adminbar"></div>
+
+	<!-- <h1 th:text="${staff.id}"></h1> -->
+	<div class="container">
+		<form action="#" th:object="${staff}" th:action="@{/employee/save}"
+			method="post">
+
+			<div class="form-group col-md-6">
+				<input type="hidden" class="form-control" id="inputName4" name="id"
+					th:field="*{id}">
+
+
+			</div>
+			<div class="form-row">
+
+				<div class="form-group col-md-6">
+					<label for="inputName4">Name</label><input type="text"
+						class="form-control" id="inputName4" name="name"
+						th:field="*{name}">
+					<p th:if="not ${errorName==null}" th:text="${errorName}"
+						style="color: red;"></p>
+
+
+				</div>
+				<div class="form-group col-md-6">
+					<label for="inputPassword4">Password</label> <input type="text"
+						class="form-control" id="inputPassword4" name="password"
+						th:field="*{password}">
+<p th:if="not ${errorPw==null}" th:text="${errorPw}" style="color: red;"></p>
+				</div>
+			</div>
+			<div class="form-group">
+				<label for="inputEmail4">Email</label> <input type="email"
+					class="form-control" id="inputEmail4" name="email"
+					th:field="*{email}">
+<p th:if="not ${errorMail==null}" th:text="${errorMail}" style="color: red;"></p>
+
+
+			</div>
+			<div class="form-row" th:if="${staff.type==null or staff.fromedit}">
+				<div class="form-group col-md-6">
+					<label for="inputRole">Role</label> <select name="type">
+						<option value="Admin">Admin</option>
+						<option value="Staff">Staff</option>
+						<option value="Manager">Manager</option>
+					</select>
+				</div>
+			</div>
+
+
+			<div th:if="${staff.type=='Staff'}" class="form-row">
+				<div class="form-group col-md-6">
+					<label for="inputRole">Manager Name</label> <select name="manId"
+						class="form-control">
+						<option th:each="man:${manlist}" th:value="${man.id}"
+							th:text="${man.name}"></option>
+					</select>
+				</div>
+			</div>
+
+			<div th:if="${staff.type=='Staff' or staff.type=='Manager'}"
+				class="form-row">
+				<input type="hidden" th:field="${staff.type}" name="type"
+					value="Staff">
+				<div class="form-group">
+					<label for="inputEmail4">Current Annual Leaves</label> <input
+						type="text" class="form-control" id="inputEmail4"
+						name="CurrentAnnualLeaves" th:field="*{CurrentAnnualLeaves}">
+				</div>
+
+				<div class="form-group">
+					<label for="inputEmail4">Current Medical Leaves</label> <input
+						type="text" class="form-control" id="inputEmail4"
+						name="CurrentMedicalLeaves" th:field="*{CurrentMedicalLeaves}">
+				</div>
+			</div>
+
+			<div th:if="${staff.type=='Staff' or staff.type=='Manager'}"
+				class="form-row">
+
+				<div class="form-group">
+					<label for="inputEmail4">Total Annual Leaves</label> <input
+						type="text" class="form-control" id="inputEmail4"
+						name="TotalAnnualLeaves" th:field="*{TotalAnnualLeaves}">
+						<p th:if="not ${errorCAL==0}" th:text="${errorCAL}" style="color: red;"></p>
+						
+				</div>
+
+				<div class="form-group">
+					<label for="inputEmail4">Total Medical Leaves</label> <input
+						type="text" class="form-control" id="inputEmail4"
+						name="TotalMedicalLeaves" th:field="*{TotalMedicalLeaves}">
+						<p th:if="not ${errorMAL==0}" th:text="${errorMAL}" style="color: red;"></p>
+						
+				</div>
+			</div>
+
+
+			<button type="submit" class="btn btn-primary">Save</button>
+		</form>
+	</div>
+	<!-- Optional JavaScript -->
+	<!-- jQuery first, then Popper.js, then Bootstrap JS -->
+	<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"
+		integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj"
+		crossorigin="anonymous"></script>
+	<script
+		src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
+		integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo"
+		crossorigin="anonymous"></script>
+	<script
+		src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"
+		integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI"
+		crossorigin="anonymous"></script>
+	<div th:insert="fragments/general.html::footer"></div>
+</body>
+</html>

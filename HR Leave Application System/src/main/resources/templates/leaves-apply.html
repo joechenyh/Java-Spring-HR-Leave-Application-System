@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="ISO-8859-1">
+<title th:utext=#{leaves-apply.title}></title>
+<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+</head>
+<body>
+	<header th:insert="fragments/general.html::header"></header>
+	<div th:insert="fragments/general.html::navigationbar"></div>
+	<fieldset>
+		<legend>Leave Type</legend>
+		<div class="w3-container" style="width: 70%;">
+			<div class="w3-panel w3-card" style="background-color: #80ced6;">
+				<a href="#" th:href="@{/leaves/annualAdd}"
+					style="text-decoration: none;">Apply Annual Leave</a>
+			</div>
+			<div class="w3-panel w3-card-2" style="background-color: #80ced6;">
+				<a href="#" th:href="@{/leaves/medicalAdd}"
+					style="text-decoration: none;">Apply Medical Leave</a>
+			</div>
+			<div class="w3-panel w3-card-4" style="background-color: #80ced6;">
+				<a href="#" th:href="@{/leaves/compensationAdd}"
+					style="text-decoration: none;">Apply Compensation Leave</a>
+			</div>
+		</div>
+	</fieldset>
+</body>
+</html>

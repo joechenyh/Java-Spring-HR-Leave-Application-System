@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+<meta charset="ISO-8859-1">
+<!-- <meta http-equiv="Cache-Control" content="no-cache"> -->
+<title th:utext=#{home.title}></title>
+</head>
+<body>
+	<header th:insert="fragments/general.html::header"></header>
+	<div th:insert="fragments/general.html::navigationbar"></div>
+	<div th:insert="fragments/general.html::footer"></div>
+</body>
+</html>

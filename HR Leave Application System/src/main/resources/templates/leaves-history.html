@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="ISO-8859-1">
+<meta name="viewport"
+	content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<link rel="stylesheet"
+	href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css"
+	integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO"
+	crossorigin="anonymous">
+</head>
+<body>
+	<header th:insert="fragments/general.html::header"></header>
+	<div th:insert="fragments/general.html::navigationbar"></div>
+	
+	<h1 class="text-center">Leave History</h1>
+	<span style="padding-left: 150px" class="text-center"> Welcome <span th:text="${session.user.name}" class="text-center"></span></span>
+	<div class="container">
+	 <div class="col-md-12 col-md-offset-2">
+<!-- 	<h1 th:utext="#{leaves-history.heading}"></h1> -->
+	<div class="table-responsive-lg">
+		<table>
+			<thead>
+				<tr>
+					<th>#</th>
+					<th>Leave Reason</th>
+					<th>Leave Type</th>
+					<th>Start Date</th>
+					<th>Claim Quota/End Date</th>
+					<th>Manager Comment</th>
+					<th>Leave Status</th>
+					<th></th>
+				</tr>
+			</thead>
+			<tbody class="table table-striped table-responsive-lg btn-table">
+				<tr th:each="l:${Leaves}">
+					<td th:text="${l.id}">id</td>
+					<td th:text="${l.leaveReason}">leaveReason</td>
+					<td th:text="${l.DiscriminatorValue}">LeaveType</td>
+					<td th:text="${#dates.format(l.startDate, 'yyyy-MM-dd')}">Start Date</td>
+					<td th:if="not ${#strings.equals(l.DiscriminatorValue,'Compensation Leave')}" th:text="${#dates.format(l.endDate, 'yyyy-MM-dd')}">Duration</td>
+					<td th:if="${#strings.equals(l.DiscriminatorValue,'Compensation Leave')}" th:text="${l.claimQuota}">Duration</td>
+					<td th:text="${l.managerComment}">Manager Comment</td>
+					<td th:text="${l.status}" class="control-label col-md-2">Status</td>
+					<td th:if="${#strings.equals(l.status,'Approved')}"> 
+						<a th:href="@{/leaves/detail/}+${l.id}+'?formId=c'"
+						th:text="#{leaves-history.detail.link }" >Detail
+						</a>
+					</td>
+					<td th:if="${#strings.equals(l.status,'Applied')}">
+						<a th:href="@{/leaves/detail/}+${l.id}+'?formId=ucd'"
+						th:text="#{leaves-history.detail.link }">Detail
+						</a>
+					</td>
+					<td th:if="${#strings.equals(l.status,'Updated')}">
+						<a th:href="@{/leaves/detail/}+${l.id}+'?formId=ucd'"
+						th:text="#{leaves-history.detail.link }">Detail
+						</a>
+					</td>
+					<td th:if="${#strings.equals(l.status,'Approved')}">
+						<a th:if="${#dates.createToday().before(l.startDate)}" th:href="@{/leaves/cancel/}+${l.id}"
+						th:text="#{leaves-history.cancel }">Cancel</a>
+					</td>
+					<td th:if="${#strings.equals(l.status,'Applied')}">
+						<a th:href="@{/leaves/update/}+${l.id}"
+						th:text="#{leaves-history.update }">Update</a>
+					</td>
+					<td th:if="${#strings.equals(l.status,'Updated')}">
+						<a th:href="@{/leaves/update/}+${l.id}"
+						th:text="#{leaves-history.update }">Update</a>
+					</td>
+					<td th:if="${#strings.equals(l.status,'Applied')}">
+						<a th:href="@{/leaves/delete/}+${l.id}"
+						th:text="#{leaves-history.delete }">Delete</a>
+					</td>
+					<td th:if="${#strings.equals(l.status,'Updated')}">
+						<a th:href="@{/leaves/delete/}+${l.id}"
+						th:text="#{leaves-history.delete }">Delete</a>
+					</td>
+				</tr>
+			</tbody>
+		</table>
+	</div>
+</div>
+</div>
+	<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+		integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+		crossorigin="anonymous"></script>
+	<script
+		src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"
+		integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49"
+		crossorigin="anonymous"></script>
+	<script
+		src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"
+		integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy"
+		crossorigin="anonymous"></script>
+</body>
+</html>

@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:fragment="headerfiles">
+<meta charset="ISO-8859-1">
+<link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+<link rel="stylesheet" href="@{/site.css}" />
+</head>
+<body>
+	<div align="center" th:fragment="header" id="header"
+		style="background-color: #72A9DC">
+		<table width="100%">
+			<tr>
+				<td th:if="${session.user != null}"><h1
+						style="text-align: center; color: white">
+						<a th:if="${session.user.getDiscriminatorValue().equals('Admin')}"
+							href="/employee/admin">Leave Application System</a> <a
+							th:unless="${session.user.getDiscriminatorValue().equals('Admin')}"
+							href="/employee/leaves">Leave Application System</a>
+					</h1></td>
+				<td th:if="${session.user == null }"><h1
+						style="text-align: center; color: white">
+						<a href="/employee/logout">Leave Application System</a>
+					</h1></td>
+			</tr>
+		</table>
+	</div>
+
+	<div>
+		<div th:fragment="navigationbar" id="navigationbar">
+			<table width="100%" style="background-color: #0E508D">
+				<tr align="center">
+					<td th:if="${session.user != null}"><a href="/leaves/apply">
+							<button>Apply Leave</button>
+					</a> <a href="/leaves/history">
+							<button>Leave History</button>
+					</a> <a href="/overtime/claim">
+							<button>Apply Overtime</button>
+					</a><a href="/overtime/history">
+							<button>Overtime History</button>
+					</a> <a href="/employee/movement-register">
+							<button>Movement Register</button>
+					</a> <!-- <a
+						th:if="${session.user.getDiscriminatorValue().equals('Manager')}"
+						href="/leaves/generate-report">
+							<button>Generate Report</button>
+					</a> --> <a
+						th:if="${session.user.getDiscriminatorValue().equals('Manager')}"
+						href="/manager/staffList">
+							<button>Staff List</button>
+					</a> <a
+						th:if="${session.user.getDiscriminatorValue().equals('Manager')}"
+						href="/manager/leavesAppForApprovalList">
+							<button>Approve Leaves</button>
+					</a> <a
+						th:if="${session.user.getDiscriminatorValue().equals('Manager')}"
+						href="/manager/overtimelist">
+							<button>Approve Overtime</button>
+					</a> <a href="/employee/logout">
+							<button>Logout</button>
+					</a></td>
+
+					<td th:if="${session.user == null}"><a href="/employee/login">
+							<button>Employee Log In</button>
+					</a> <a href="/employee/login2">
+							<button>Admin Log In</button>
+					</a></td>
+				</tr>
+			</table>
+		</div>
+	</div>
+
+	<div>
+		<div th:fragment="adminbar" id="adminbar">
+			<table width="100%" style="background-color: #0E508D">
+				<tr align="center">
+					<td><a href="/employee/dashboard">
+							<button>Manage & View Employee</button>
+					</a> <a href="/employee/admin-create">
+							<button>Create Employee</button>
+
+					</a> <a href="/api/admin-setblockleave">
+							<button>Set block leave</button>
+					</a> <a href="/employee/logout">
+							<button>Logout</button>
+					</a></td>
+				</tr>
+			</table>
+		</div>
+	</div>
+
+	<footer th:fragment="footer">
+		<h5 th:text="${execInfo.now.time}"></h5>
+	</footer>
+</body>
+</html>

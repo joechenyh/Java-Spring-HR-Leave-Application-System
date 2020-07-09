@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<!-- Required meta tags -->
+<meta name="viewport"
+	content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<!-- Bootstrap CSS -->
+<link rel="stylesheet"
+	href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css"
+	integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk"
+	crossorigin="anonymous">
+<meta charset="ISO-8859-1">
+<title>My Subordinates List</title>
+</head>
+<body>
+	<header th:insert="fragments/general.html::header"></header>
+	<div th:insert="fragments/general.html::navigationbar"></div>
+	<h2>My Subordinates List</h2>
+	<div class="container">
+		<!-- Search Bar -->
+		<form action="#" th:action="@{/employee/search-employee}"
+			method="post" align="right">
+			<input type="text" name="searchTerm" placeholder="pending work">
+			<button type="submit">Search</button>
+		</form>
+
+		<!-- Generated table -->
+		<table class="table table-bordered">
+			<thead class="thead-dark">
+				<tr>
+					<th scope="col">Id</th>
+					<th scope="col">Name</th>
+					<th scope="col">Email</th>
+				</tr>
+			</thead>
+			<tbody th:object="${suboridateList}">
+				<tr th:each="employee : ${suboridateList}">
+					<th scope="row" th:text="${employee.id}">Id</th>
+					<td><a
+						th:href="@{/manager/staffLeaveHistoryList/}+${employee.id}"
+						th:text="${employee.name}">Name</a></td>
+					<td th:text="${employee.email}">Email</td>
+					<td></td>
+				</tr>
+			</tbody>
+		</table>
+
+	</div>
+
+	<!-- Optional JavaScript -->
+	<!-- jQuery first, then Popper.js, then Bootstrap JS -->
+	<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"
+		integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj"
+		crossorigin="anonymous"></script>
+	<script
+		src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
+		integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo"
+		crossorigin="anonymous"></script>
+	<script
+		src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"
+		integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI"
+		crossorigin="anonymous"></script>
+
+	<div th:insert="fragments/general.html::footer"></div>
+
+</body>
+</html>

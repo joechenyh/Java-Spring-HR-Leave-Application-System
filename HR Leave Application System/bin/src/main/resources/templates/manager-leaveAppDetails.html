@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta name="viewport"
+	content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<link rel="stylesheet"
+	href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css"
+	integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk"
+	crossorigin="anonymous">
+<meta charset="ISO-8859-1">
+<title th:utext=#{leaves-applicationdetails.title}></title>
+</head>
+<body>
+	<header th:insert="fragments/general.html::header"></header>
+	<div th:insert="fragments/general.html::navigationbar"></div>
+
+
+	<form action="#" th:object="${leaves}"
+		th:action="@{/manager/leavesAppDetails/respond}" method="post">
+		<dl class="row">
+			<dt class="col-sm-3">Staff Name</dt>
+			<dd class="col-sm-9" th:text="${leaves.staff.name}">Bianca</dd>
+
+
+			<dt class="col-sm-3">Leave Type</dt>
+			<dd class="col-sm-9" th:text="*{DiscriminatorValue}">
+				<p>Annual Leave Got Problem! Leave Type Cannot be found!</p>
+			</dd>
+
+			<dt class="col-sm-3">Start Date</dt>
+			<dd class="col-sm-9" th:text="${leaves.startDate}">01-07-2020</dd>
+			
+			<dt class="col-sm-3" th:if="not ${#strings.equals(leaves.DiscriminatorValue,'Compensation Leave')}">End Date</dt>
+			<dd class="col-sm-9" th:if="not ${#strings.equals(leaves.DiscriminatorValue,'Compensation Leave')}" th:text="${leaves.endDate}">05-07-2020</dd>
+			
+			<dt class="col-sm-3" th:if="${#strings.equals(leaves.DiscriminatorValue,'Compensation Leave')}">AM/PM</dt>
+			<dd class="col-sm-9" th:if="${#strings.equals(leaves.DiscriminatorValue,'Compensation Leave')}" th:text="${leaves.claimQuota}">AM</dd>
+			
+			<dt class="col-sm-3">Leave Status</dt>
+			<dd class="col-sm-9" th:text="${leaves.status}">Applied/updated/cancelled/...</dd>
+
+			<dt class="col-sm-3 text-truncate">Leave Reason</dt>
+			<dd class="col-sm-9" th:text="${leaves.leaveReason}">There is so
+				much in the world that I'd like to soak up with my eyes.</dd>
+			<dt class="col-sm-3" th:if="${#strings.equals(leaves.DiscriminatorValue,'Annual Leave')}">Contact Detail</dt>
+			<dd class="col-sm-9" th:if="${#strings.equals(leaves.DiscriminatorValue,'Annual Leave')}" th:text="${leaves.contactDetails}">contact details</dd>
+			
+			<dt class="col-sm-3">Your Comment</dt>
+			<dd class="col-sm-9">
+				<div th:switch="${leaves.status.name()}">
+					<div th:case="'Applied'">
+						<input type="text" th:field="*{managerComment}"></input>
+					</div>
+					<div th:case="'Updated'">
+						<input type="text" th:field="*{managerComment}"></input>
+					</div>
+					<div th:case="*">
+						<p th:text="*{managerComment}">This Leave doesn't need to
+							approve/reject.</p>
+					</div>
+				</div>
+				<!--  <input type="text" th:field="*{managerComment}">-->
+			</dd>
+
+
+
+		</dl>
+		<div th:switch="${leaves.status.name()}">
+			<div th:case="'Applied'">
+				<button type="submit" name="action" value="approve">Approve</button>
+				<button type="submit" name="action" value="reject">Reject</button>
+			</div>
+			<div th:case="'Updated'">
+				<button type="submit" name="action" value="approve">Approve</button>
+				<button type="submit" name="action" value="reject">Reject</button>
+			</div>
+			<div th:case="*">
+				<p>There is nothing for you to approve or reject.</p>
+			</div>
+		</div>
+		<p style="color: red" th:text="${errorRem}"
+		th:if="${not #strings.isEmpty(errorRem)} "></p>
+
+	</form>
+	<h3>Other Leaves for the same period (If any)</h3>
+	<table class="table">
+			<thead>
+				<tr>
+					<th scope="col">id</th>
+					<th scope="col">Staff Name</th>
+					<th scope="col">Leave Reason</th>
+					<th scope="col">Leave Type</th>
+					<th scope="col">Start Date</th>
+					<th scope="col">End Date/Half Day Period</th>
+					<th scope="col">Leave Status</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr th:if="${not #lists.isEmpty(MatesLeaves)} "th:each="l:${MatesLeaves}">
+					<td><a th:text="${l.id}"
+						th:href="@{/manager/leavesAppDetails/}+${l.id}">id</a></td>
+					<td th:text="${l.Staff.name}">Staff Name</td>
+					<td th:text="${l.leaveReason}">leaveReason</td>
+					<td th:text="${l.DiscriminatorValue}">LeaveType</td>
+					<td th:text="${l.startDate}">Start Date</td>
+					<td th:if="not ${#strings.equals(l.DiscriminatorValue,'Compensation Leave')}" th:text="${#dates.format(l.endDate, 'yyyy-MM-dd')}">enddate</td>
+					<td th:if="${#strings.equals(l.DiscriminatorValue,'Compensation Leave')}" 
+					th:text="${l.claimQuota}">am/pm</td>
+					<td th:text="${l.status}">Otto</td>
+				</tr>
+			</tbody>
+		</table>
+	<div th:insert="fragments/general.html::footer"></div>
+
+</body>
+</html>
